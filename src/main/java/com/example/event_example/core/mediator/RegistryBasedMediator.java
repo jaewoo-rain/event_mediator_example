@@ -18,13 +18,14 @@ public class RegistryBasedMediator implements EventMediator {
 
     public RegistryBasedMediator(BlockingQueue<DomainEvent> input,
                                  List<DomainEventHandler<?>> discoveredHandlers,
-                                 Optional<UnhandledEventStrategy> unhandled) {
+                                 Optional<UnhandledEventStrategy> unhandled
+    ) {
         this.input = input;
         // 우선순위별 정렬하여 타입별로 레지스터
         discoveredHandlers.forEach(h -> handlers
                 .computeIfAbsent(h.supportsType(), k -> new ArrayList<>())
                 .add(h));
-        handlers.values().forEach(list -> list.sort(Comparator.comparingInt(DomainEventHandler::order)));
+        handlers.values().forEach(list -> list.sort(Comparator.comparingInt(domainEventHandler -> domainEventHandler.order())));
         this.unhandled = unhandled.orElseGet(() -> (e) -> { throw new IllegalStateException("No handler for "+e.getClass()); });
         log.info("[Mediator] registered handlers: {}", handlers.keySet());
     }

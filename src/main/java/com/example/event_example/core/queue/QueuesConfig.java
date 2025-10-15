@@ -4,7 +4,6 @@ import com.example.event_example.core.event.DomainEvent;
 import com.example.event_example.core.event.login.TokenTask;
 import com.example.event_example.core.event.register.EmailTask;
 import com.example.event_example.core.event.register.NotificationTask;
-import com.example.event_example.core.event.register.RegisterRequested;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
